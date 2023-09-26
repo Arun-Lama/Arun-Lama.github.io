@@ -1,9 +1,3 @@
-# Massively by HTML5 UP
-
-[html5up.net](http://html5up.net) | [@ajlkn](https://twitter.com/ajlkn)
-
-Free for personal and commercial use under the [CCA 3.0 license](http://html5up.net/license)
-
 ## My Portfolio
 
 I would like to present a few of the data analysis projects I completed during my tenure as an equity research analyst.
@@ -58,8 +52,4 @@ I would like to present a few of the data analysis projects I completed during m
 - [LinkedIn](https://www.linkedin.com/in/arun-lama-aa2399146/)
 - [GitHub](https://github.com/Arun-Lama?tab=repositories)
 
-## Copyright
-
-- &copy; Untitled
-- Design: [HTML5 UP](https://html5up.net)
 
