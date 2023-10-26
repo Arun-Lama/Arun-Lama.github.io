@@ -4,7 +4,7 @@ Arun Lama Portfolio
 -->
 <html>
 	<head>
-		<title>Arun Lama Portfolio</title>
+		<title>Arun Lama</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
@@ -17,17 +17,14 @@ Arun Lama Portfolio
 
 				<!-- Intro -->
 					<div id="intro">
-						<h1>My Portfolio</h1>
-						<p>I would like to present a few of the data analysis projects that I completed while working as a technical analyst.</p>
+						<h1>Arun K. Lama</h1>
+						<p style="font-size: 40px;">Data Analyst</p>
 						<ul class="actions">
 							<li><a href="#header" class="button icon solid solo fa-arrow-down scrolly">Continue</a></li>
 						</ul>
 					</div>
 
 				<!-- Header -->
-					<header id="header">
-						<a href="index.html" class="logo">Arun's Portfolio</a>
-					</header>
 
 				<!-- Nav -->
 					<nav id="nav">
@@ -48,21 +45,34 @@ Arun Lama Portfolio
 						<!-- Featured Post -->
 							<article class="post featured">
 									<h2><a href="https://github.com/Arun-Lama/Nepse-Adjusted-Price"><br />
-									Adjusted Stock Price Series</a></h2>
-									<p  style="text-align: justify;">On the ex-dividend date, a company's stock price typically drops 
-										by an amount equal to the dividend being paid. This happens because 
-										buyers after this date won't receive the dividend, making the stock less valuable to them. 
+									Dividend Adjusted Stock Price Series</a></h2>
+									<p  style="text-align: justify;">In this project I created dividend/right adjusted price series from unadjusted price series from scratch.
+										When the companies announce dividends, right, and stock splits large price gaps are seen on the price chart on Ex-dividend date. Such price gaps make
+										distort the time series data and are unreliable to perform further price related analysis. Hence it is crucial to use adjusted price series. 
+									I will explain each steps I performed in this article. 
 									</p>
-										<p> The adjusted price series may not be readily available to the retail traders especially in a least developed market like Nepal.
-											This program generates adjusted price series from un-adjusted OHLC price series. The dividends history and rights history are also required
-											to make price adjustments. 
-										</p>
-							
-								<a class="image main"><img src="images/unadjusted vs adjusted.png" alt="" />
-								<figcaption> Unadjusted vs adjusted chart of Nepal Life Insurance Company Ltd. (NLIC)</figcaption>	</a>	
-								<p> I take pride in this project as it demanded a significant amount of time and posed occasional logical challenges. 
-										I employed the back-adjusted approach for the necessary adjustments.
-										</p>
+									<h3 style = "text-align: left;">1. Data Extraction</h3>
+									<h4 style = "text-align: left;">Historical Stock Price</h4>
+									<p style="margin-bottom: 1;">Over 12 years of data was scraped using Python's Beautifulsoup library from the official <a href="https://www.nepalstock.com/">NEPSE website.</a>
+										You can find the Jupyter notebook code I used for scraping <a href="https://github.com/Arun-Lama/AppliedDataScience/blob/dea5ec1bfb1ed4dae108e01a5837e87dfedf8b0a/Today's%20Price%20Download.ipynb">here.</a></p>
+										<h4 style="text-align: left;">Dividend History</h4>
+										
+										<p>I used <a href = "https://www.sharesansar.com/proposed-dividend"> sharesansar </a>to scrape historical dividends of all stocks. You can find the code for downloading dividend histoy <a href = 'https://github.com/Arun-Lama/AppliedDataScience/blob/278e5bfff524ed4e39a0bf060d43b7feb9f97088/Dividend%20History%20From%20Sharesansar.ipynb'>here.</a></p>
+
+									<p>The downloaded data were stored in a csv file.</p>
+
+									<h3 style = "text-align: left;">2. Data Cleaning</h3>
+									<p>It is very common to see the extracted data very messy. In the case of historical stock price there were many errors in the data source itself. There were many missing values and outliers.
+										I used visualization technique to spot the abnormalities in the data. 
+										<a class="image main"><img src="images/unadjusted.png" alt="" /></a>
+									</p>
+									<p>The code for validating data sanity before and after adjustment can be found <a href = 'https://github.com/Arun-Lama/AppliedDataScience/blob/c477b67373257f9d29932b0bf446fb32f9c51a05/Data%20Cleaning.ipynb'>here.</a></p>
+									<h3 style="text-align: left;">3. Adjustment Algorithm</h3>
+									<p>Finally after the data extraction and cleaning, backward adjusting Algorithm was applied to the price series to generate adjusted price series based on the dividends, rights, and splits.
+										The following example chart of NLIC (Nepal Life Insurance Company Ltd.) illustrates difference between unadjusted and adjusted chart. You can see that the gaps seen in the unadjusted chart are adjusted based on the dividends and rights on the right side. 
+									</p>
+									<a class="image main"><img src="images/unadjusted vs adjusted.png" alt="" />
+
 										<p><a href="https://github.com/Arun-Lama/Nepse-Adjusted-Price" style="color: blue;"> Link to the Repo</a></p>
 						<!-- Posts -->
 							<section class="posts">
@@ -131,7 +141,7 @@ Arun Lama Portfolio
 										Data Science Projects</a></h2>
 									</header>
 									<a href="#" class="image fit"><img src="images/pic06.jpg" alt="" /></a>
-									<p>During my learning process on Coursera I completed several data science small projects. </p>
+									<p>During my learning process on Coursera I completed several small data science projects. </p>
 									<p>You can find <a href = 'https://github.com/Arun-Lama/AppliedDataScience/tree/main' style="color:  blue;">link to the repo here</a></p>
 									<ul class="actions special">
 									</ul>
