@@ -39,7 +39,8 @@
 		});
 	});
 
-	/* Optional “data universe” canvas — skipped when user prefers reduced motion */
+	/* “Interstellar” canvas — twinkling stars, glowing links, occasional shooting stars.
+	   Skipped when the user prefers reduced motion. */
 	function initCosmosCanvas() {
 		if (!window.matchMedia || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
 			return;
@@ -49,14 +50,26 @@
 			return;
 		}
 		var ctx = canvas.getContext("2d");
-		var particles = [];
-		var n = 70;
-		var linkDist = 118;
+		var stars = [];
+		var shooters = [];
 		var w = 0;
 		var h = 0;
 		var dpr = 1;
 		var raf = 0;
 		var running = true;
+		var lastShoot = 0;
+		var linkDist = 130;
+		var palette = [
+			"236,238,242",
+			"158,197,255",
+			"201,162,39",
+			"190,140,255",
+			"120,210,255",
+		];
+
+		function rand(a, b) {
+			return a + Math.random() * (b - a);
+		}
 
 		function resize() {
 			dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -66,43 +79,63 @@
 			canvas.width = Math.floor(w * dpr);
 			canvas.height = Math.floor(h * dpr);
 			ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-			linkDist = Math.min(140, Math.max(88, Math.floor(Math.min(w, h) / 6)));
-			particles.length = 0;
+			var area = w * h;
+			var n = Math.min(170, Math.max(80, Math.floor(area / 11500)));
+			linkDist = Math.min(160, Math.max(95, Math.floor(Math.min(w, h) / 6)));
+			stars.length = 0;
 			for (var i = 0; i < n; i++) {
-				particles.push({
+				var bright = Math.random() < 0.18;
+				var color = palette[Math.floor(Math.random() * palette.length)];
+				stars.push({
 					x: Math.random() * w,
 					y: Math.random() * h,
 					vx: (Math.random() - 0.5) * 0.22,
 					vy: (Math.random() - 0.5) * 0.22,
-					r: Math.random() * 1.1 + 0.35,
+					r: bright ? rand(1.4, 2.4) : rand(0.4, 1.1),
+					big: bright,
+					c: color,
+					phase: Math.random() * Math.PI * 2,
+					speed: rand(0.006, 0.022),
 				});
 			}
+			shooters.length = 0;
 		}
 
-		function step() {
+		function spawnShooter() {
+			var startX = rand(-50, w * 0.6);
+			var startY = rand(-50, h * 0.4);
+			var angle = rand(Math.PI * 0.16, Math.PI * 0.34);
+			var speed = rand(9, 14);
+			shooters.push({
+				x: startX,
+				y: startY,
+				vx: Math.cos(angle) * speed,
+				vy: Math.sin(angle) * speed,
+				life: 0,
+				maxLife: Math.floor(rand(45, 75)),
+				len: rand(110, 190),
+			});
+		}
+
+		function step(t) {
 			if (!running) return;
 			ctx.clearRect(0, 0, w, h);
-			var i;
-			for (i = 0; i < particles.length; i++) {
-				var p = particles[i];
-				p.x += p.vx;
-				p.y += p.vy;
-				if (p.x < 0) p.x = w;
-				if (p.x > w) p.x = 0;
-				if (p.y < 0) p.y = h;
-				if (p.y > h) p.y = 0;
-			}
-			for (i = 0; i < particles.length; i++) {
-				for (var j = i + 1; j < particles.length; j++) {
-					var a = particles[i];
-					var b = particles[j];
+			ctx.globalCompositeOperation = "lighter";
+
+			var i, j;
+
+			for (i = 0; i < stars.length; i++) {
+				for (j = i + 1; j < stars.length; j++) {
+					var a = stars[i];
+					var b = stars[j];
 					var dx = a.x - b.x;
 					var dy = a.y - b.y;
-					var dist = Math.sqrt(dx * dx + dy * dy);
-					if (dist < linkDist) {
-						var alpha = (1 - dist / linkDist) * 0.14;
-						ctx.strokeStyle = "rgba(158,197,255," + alpha + ")";
-						ctx.lineWidth = 0.55;
+					var d2 = dx * dx + dy * dy;
+					if (d2 < linkDist * linkDist) {
+						var d = Math.sqrt(d2);
+						var alpha = (1 - d / linkDist) * 0.32;
+						ctx.strokeStyle = "rgba(150,180,255," + alpha + ")";
+						ctx.lineWidth = 0.7;
 						ctx.beginPath();
 						ctx.moveTo(a.x, a.y);
 						ctx.lineTo(b.x, b.y);
@@ -110,13 +143,75 @@
 					}
 				}
 			}
-			ctx.fillStyle = "rgba(236,238,242,0.42)";
-			for (i = 0; i < particles.length; i++) {
-				var q = particles[i];
+
+			for (i = 0; i < stars.length; i++) {
+				var s = stars[i];
+				s.x += s.vx;
+				s.y += s.vy;
+				if (s.x < -10) s.x = w + 10;
+				if (s.x > w + 10) s.x = -10;
+				if (s.y < -10) s.y = h + 10;
+				if (s.y > h + 10) s.y = -10;
+				s.phase += s.speed;
+				var twinkle = 0.55 + Math.sin(s.phase) * 0.4;
+
+				if (s.big) {
+					var halo = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.r * 7);
+					halo.addColorStop(0, "rgba(" + s.c + "," + twinkle * 0.9 + ")");
+					halo.addColorStop(0.35, "rgba(" + s.c + "," + twinkle * 0.22 + ")");
+					halo.addColorStop(1, "rgba(" + s.c + ",0)");
+					ctx.fillStyle = halo;
+					ctx.beginPath();
+					ctx.arc(s.x, s.y, s.r * 7, 0, Math.PI * 2);
+					ctx.fill();
+				}
+
+				ctx.fillStyle = "rgba(" + s.c + "," + Math.min(1, twinkle + 0.25) + ")";
 				ctx.beginPath();
-				ctx.arc(q.x, q.y, q.r, 0, Math.PI * 2);
+				ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
 				ctx.fill();
 			}
+
+			if (t - lastShoot > 4200 && Math.random() < 0.02 && shooters.length < 2) {
+				spawnShooter();
+				lastShoot = t;
+			}
+			for (i = shooters.length - 1; i >= 0; i--) {
+				var ss = shooters[i];
+				ss.x += ss.vx;
+				ss.y += ss.vy;
+				ss.life++;
+				var lifeRatio = ss.life / ss.maxLife;
+				var a2 = Math.max(0, 1 - lifeRatio);
+				var mag = Math.sqrt(ss.vx * ss.vx + ss.vy * ss.vy) || 1;
+				var tx = ss.x - (ss.vx / mag) * ss.len;
+				var ty = ss.y - (ss.vy / mag) * ss.len;
+				var trail = ctx.createLinearGradient(ss.x, ss.y, tx, ty);
+				trail.addColorStop(0, "rgba(255,255,255," + 0.95 * a2 + ")");
+				trail.addColorStop(0.4, "rgba(180,210,255," + 0.55 * a2 + ")");
+				trail.addColorStop(1, "rgba(180,210,255,0)");
+				ctx.strokeStyle = trail;
+				ctx.lineWidth = 1.6;
+				ctx.lineCap = "round";
+				ctx.beginPath();
+				ctx.moveTo(tx, ty);
+				ctx.lineTo(ss.x, ss.y);
+				ctx.stroke();
+
+				var head = ctx.createRadialGradient(ss.x, ss.y, 0, ss.x, ss.y, 9);
+				head.addColorStop(0, "rgba(255,255,255," + a2 + ")");
+				head.addColorStop(1, "rgba(255,255,255,0)");
+				ctx.fillStyle = head;
+				ctx.beginPath();
+				ctx.arc(ss.x, ss.y, 9, 0, Math.PI * 2);
+				ctx.fill();
+
+				if (ss.life >= ss.maxLife || ss.x > w + 120 || ss.y > h + 120) {
+					shooters.splice(i, 1);
+				}
+			}
+
+			ctx.globalCompositeOperation = "source-over";
 			raf = requestAnimationFrame(step);
 		}
 
