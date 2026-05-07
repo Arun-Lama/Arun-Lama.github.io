@@ -487,16 +487,57 @@ main {
 /* —— About me (resume-aligned) —— */
 .about-me .section-title {
 	text-align: left;
-	max-width: 20ch;
+	max-width: min(100%, 42ch);
 }
 
 .about-me__headline {
 	font-size: clamp(1.65rem, 1.2rem + 2.2vw, 2.35rem);
 	line-height: 1.2;
+	margin: 0 0 clamp(1.25rem, 3vw, 2rem);
+}
+
+.about-me__lead {
+	display: grid;
+	grid-template-columns: minmax(200px, min(30vw, 280px)) 1fr;
+	gap: clamp(1.5rem, 4vw, 3.25rem);
+	align-items: start;
+	margin-bottom: 0.25rem;
+}
+
+.about-me__portrait {
+	margin: 0;
+	width: 100%;
+	max-width: 280px;
+	padding: 3px;
+	border-radius: var(--radius-lg);
+	background: linear-gradient(
+		145deg,
+		rgba(201, 162, 39, 0.5) 0%,
+		rgba(100, 140, 220, 0.35) 45%,
+		rgba(201, 162, 39, 0.25) 100%
+	);
+	box-shadow:
+		0 24px 60px rgba(0, 0, 0, 0.45),
+		0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+}
+
+.about-me__portrait img {
+	display: block;
+	width: 100%;
+	height: auto;
+	border-radius: calc(var(--radius-lg) - 3px);
+	object-fit: cover;
+	aspect-ratio: 4 / 5;
+	object-position: 50% 18%;
+	background: #fff;
+}
+
+.about-me__body {
+	min-width: 0;
 }
 
 .about-me__role {
-	margin: -0.25rem 0 1.75rem;
+	margin: 0 0 1.1rem;
 	font-size: var(--step--1);
 	color: var(--text-muted);
 	letter-spacing: 0.04em;
@@ -512,10 +553,25 @@ main {
 
 .about-me__intro p {
 	margin: 0 0 1rem;
-	max-width: 62ch;
+	max-width: 68ch;
 	color: var(--text-muted);
 	font-size: var(--step-1);
 	line-height: 1.7;
+}
+
+@media (max-width: 720px) {
+	.about-me__lead {
+		grid-template-columns: 1fr;
+		justify-items: center;
+	}
+
+	.about-me__body {
+		width: 100%;
+	}
+
+	.about-me__portrait {
+		max-width: 220px;
+	}
 }
 
 .about-me__intro p:last-child {
