@@ -4,7 +4,7 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<title>Arun K. Lama — Quantitative research &amp; data</title>
-	<meta name="description" content="Portfolio of Arun K. Lama: NEPSE equity research, dividend-adjusted price series, systematic backtesting, Tableau dashboards, and Python data engineering." />
+	<meta name="description" content="Portfolio of Arun K. Lama: NEPSE equity research, automated watch-list ETL pipelines, dividend-adjusted price series, systematic backtesting, Tableau dashboards, and Python data engineering." />
 	<meta name="theme-color" content="#060708" />
 	<meta property="og:title" content="Arun K. Lama — Portfolio" />
 	<meta property="og:description" content="Quantitative finance and data projects focused on the Nepal Stock Exchange (NEPSE)." />
@@ -60,9 +60,10 @@
 					<p>I build reproducible pipelines and research-grade outputs, with a focus on the Nepal Stock Exchange: extracting messy market data, validating it, and transforming it into series and tools analysts can trust.</p>
 					<ul class="skill-tags" aria-label="Technical focus">
 						<li>Python</li>
-						<li>Data pipelines</li>
+						<li>ETL &amp; automation</li>
 						<li>Time series</li>
 						<li>Tableau</li>
+						<li>Video / FFmpeg</li>
 						<li>Research documentation</li>
 					</ul>
 				</div>
@@ -106,6 +107,78 @@
 
 						<div class="case-actions">
 							<a class="btn btn--primary" href="https://github.com/Arun-Lama/Nepse-Adjusted-Price" rel="noopener noreferrer" target="_blank">GitHub repository</a>
+						</div>
+					</div>
+				</article>
+
+				<article class="case case--featured reveal" id="project-nepse-watchlist">
+					<header class="case-header">
+						<div class="case-meta">
+							<span class="chip">Pipeline</span>
+							<span class="chip">Python</span>
+							<span class="chip">mplfinance</span>
+							<span class="chip">FFmpeg</span>
+						</div>
+						<h2><a href="https://github.com/Arun-Lama/nepse_watch_list" rel="noopener noreferrer" target="_blank">NEPSE watch list — daily screening, charts &amp; publish automation</a></h2>
+						<p class="case-deck">A production-style pipeline that ingests full-market adjusted OHLCV, layers fundamentals and technical rules, renders hundreds of publication-ready charts, stitches landscape and vertical reels, and optionally drives multimodal captions for social — end to end in Python.</p>
+					</header>
+					<div class="case-body">
+						<h3>ETL architecture</h3>
+						<div class="etl-pipeline" role="list">
+							<div class="etl-step" role="listitem">
+								<h4 class="etl-step__phase">Extract</h4>
+								<h5 class="etl-step__title">Multi-source ingestion</h5>
+								<ul class="etl-step__list">
+									<li>Adjusted OHLCV for all tickers via the <strong>GitHub REST API</strong> (authenticated <code>contents</code> → <code>download_url</code>), sourced from my adjusted-price repository.</li>
+									<li>Broad market indices from versioned <strong>raw GitHub CSV</strong> endpoints.</li>
+									<li>Fundamental tables from <strong>NepseAlpha</strong> with browser-realistic headers, <strong>retry/backoff</strong>, <strong>cloudscraper</strong> fallback when anti-bot blocks plain <code>requests</code>, and <strong>disk cache</strong> if live fetch fails.</li>
+								</ul>
+							</div>
+							<div class="etl-step" role="listitem">
+								<h4 class="etl-step__phase">Transform</h4>
+								<h5 class="etl-step__title">Validation &amp; analytics layer</h5>
+								<ul class="etl-step__list">
+									<li>Price hygiene: drop rows with zero/NaN opens or closes; enforce strictly <strong>positive OHLC</strong> before any signal logic.</li>
+									<li>Per-ticker time order; scale on the order of <strong>hundreds of thousands</strong> of bars across the universe pre–fundamental prune.</li>
+									<li>Indicators: <strong>Wilder RSI (14)</strong> matching exchange-style smoothing, <strong>MA20 / MA50 / MA200</strong>, 3-day volume vs a 30-day rolling baseline (<strong>volume ratio</strong>).</li>
+									<li>Structure: <strong>support / resistance</strong> engine on trailing windows — proximity % to levels, tight-range compression, bullish/bearish breakout flags — fed into JSON for downstream captioning.</li>
+									<li>Fundamental <strong>universe filters</strong> for the market summary track (for example excluding zero financial-strength stars or &ldquo;weak&rdquo; ratio summaries).</li>
+								</ul>
+							</div>
+							<div class="etl-step" role="listitem">
+								<h4 class="etl-step__phase">Load</h4>
+								<h5 class="etl-step__title">Artifacts &amp; distribution</h5>
+								<ul class="etl-step__list">
+									<li>Categorized screeners (uptrend / downtrend stacks, MA crosses, high volume + price up, bearish cross, tiered buy-watchlist) drive <strong>mplfinance</strong> renders into ordered PNG sequences.</li>
+									<li><strong>FFmpeg</strong> pipelines: landscape <code>market_tracker.mp4</code>, <strong>9:16</strong> reels with <code>cover</code> fit (no letterboxing), intro crossfades, dated thumbnails.</li>
+									<li>Optional <strong>Gemini</strong> multimodal pass: chart attachments plus structured JSON context (session date, screener counts, per-ticker snapshots) → Facebook / YouTube copy with template fallback.</li>
+									<li>Upload hooks for <strong>YouTube Shorts</strong> and <strong>Facebook Reels</strong> APIs when credentials are enabled.</li>
+								</ul>
+							</div>
+						</div>
+
+						<h3>Screening &amp; chart logic</h3>
+						<p>Rules combine trend geometry (close vs MA stack), event-style crosses (including MA50 vs MA200), candle bias, relative volume, and S/R context. Outputs are partitioned for a fundamentally pruned <strong>market summary</strong> deck versus a technically tiered <strong>buy watchlist reel</strong> — same core data, different product surfaces.</p>
+						<ul class="logic-highlights">
+							<li>Deterministic filename conventions so video ordering and AI caption context stay in lockstep.</li>
+							<li>Reel body merge then intro prepend; temp assets deleted only after successful mux — safe operational defaults.</li>
+							<li>Operational runbook (<code>PIPELINE_AND_VIDEO.md</code>) documents dimensions, visibility flags, and regression-prone merge settings.</li>
+						</ul>
+
+						<div class="figure-row">
+							<figure class="figure">
+								<img src="images/nepse-watchlist-market-summary.png" width="900" height="600" loading="lazy" alt="mplfinance market summary chart for EBL with price, moving averages, volume, and RSI panels." />
+								<figcaption>Market-summary style chart (candlesticks, MAs, volume, RSI) from the automated renderer.</figcaption>
+							</figure>
+							<figure class="figure">
+								<img src="images/nepse-watchlist-buy-reel.png" width="600" height="900" loading="lazy" alt="Vertical buy-watchlist reel card with tier label, fundamentals context, and price chart." />
+								<figcaption>Vertical reel card: tiered watchlist layout with fundamentals context alongside price action.</figcaption>
+							</figure>
+						</div>
+
+						<div class="case-actions">
+							<a class="btn btn--primary" href="https://github.com/Arun-Lama/nepse_watch_list" rel="noopener noreferrer" target="_blank">View repository</a>
+							<a class="btn" href="https://github.com/Arun-Lama/nepse_watch_list/blob/main/PIPELINE_AND_VIDEO.md" rel="noopener noreferrer" target="_blank">Pipeline runbook</a>
 						</div>
 					</div>
 				</article>

@@ -837,3 +837,102 @@ main {
 		transform: translateY(0);
 	}
 }
+
+/* —— NEPSE watch list / ETL showcase —— */
+.etl-pipeline {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 1rem;
+	margin: 1.5rem 0 2rem;
+}
+
+@media (max-width: 960px) {
+	.etl-pipeline {
+		grid-template-columns: 1fr;
+	}
+}
+
+.etl-step {
+	background: rgba(255, 255, 255, 0.025);
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	padding: 1.25rem 1.35rem;
+}
+
+.etl-step__phase {
+	font-size: 0.65rem;
+	font-weight: 700;
+	letter-spacing: 0.18em;
+	text-transform: uppercase;
+	color: var(--accent);
+	margin: 0 0 0.4rem;
+}
+
+.etl-step__title {
+	font-family: var(--font-display);
+	font-size: var(--step-1);
+	font-weight: 500;
+	margin: 0 0 0.85rem;
+	color: var(--text);
+	line-height: 1.25;
+}
+
+.etl-step__list {
+	margin: 0;
+	padding-left: 1.1rem;
+	font-size: 0.88rem;
+	color: var(--text-muted);
+	line-height: 1.55;
+}
+
+.etl-step__list li {
+	margin-bottom: 0.55rem;
+}
+
+.etl-step__list li:last-child {
+	margin-bottom: 0;
+}
+
+.etl-step__list li::marker {
+	color: var(--accent);
+}
+
+.logic-highlights {
+	margin: 1rem 0 0;
+	padding-left: 1.15rem;
+	color: var(--text-muted);
+	font-size: 0.92rem;
+	line-height: 1.55;
+	max-width: var(--narrow);
+}
+
+.logic-highlights li {
+	margin-bottom: 0.45rem;
+}
+
+.logic-highlights li::marker {
+	color: var(--accent);
+}
+
+.figure-row {
+	display: grid;
+	grid-template-columns: 1.2fr 0.85fr;
+	gap: 1rem;
+	margin: 1.75rem 0;
+	align-items: start;
+}
+
+@media (max-width: 900px) {
+	.figure-row {
+		grid-template-columns: 1fr;
+	}
+}
+
+.figure-row .figure {
+	margin: 0;
+}
+
+.figure-row .figure figcaption {
+	font-size: 0.78rem;
+	line-height: 1.45;
+}
