@@ -1,198 +1,192 @@
-<!DOCTYPE HTML>
-<!--
-Arun Lama Portfolio
--->
-<html>
+<!DOCTYPE html>
+<html lang="en">
 	<head>
-		<title>Arun Lama</title>
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Arun K. Lama — Quantitative research &amp; data projects</title>
+		<meta name="description" content="Portfolio of Arun K. Lama: NEPSE equity research, adjusted price series, systematic backtesting, Tableau dashboards, and data engineering in Python." />
+		<meta name="theme-color" content="#1e252d" />
+		<meta property="og:title" content="Arun K. Lama — Portfolio" />
+		<meta property="og:description" content="Quantitative finance and data projects focused on the Nepal Stock Exchange (NEPSE)." />
+		<meta property="og:type" content="website" />
 		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="assets/css/custom.css" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 	</head>
 	<body class="is-preload">
+		<a class="skip-link" href="#main">Skip to content</a>
 
-		<!-- Wrapper -->
-			<div id="wrapper" class="fade-in">
+		<div id="wrapper" class="fade-in">
 
-				<!-- Intro -->
-					<div id="intro">
+				<div id="intro">
 						<h1>Arun K. Lama</h1>
-						<p style="font-size: 40px;">Portfolio</p>
+						<p class="intro-tagline">Equity research · Quantitative finance · Data engineering</p>
+						<p class="intro-sub">NEPSE-focused analytics, reproducible Python pipelines, and interactive dashboards.</p>
 						<ul class="actions">
-							<li><a href="#header" class="button icon solid solo fa-arrow-down scrolly">Continue</a></li>
+							<li><a href="#header" class="button icon solid solo fa-arrow-down scrolly">View work</a></li>
 						</ul>
 					</div>
 
-				<!-- Header -->
+					<header id="header">
+						<a href="index.html" class="logo">Arun Lama</a>
+					</header>
 
-				<!-- Nav -->
 					<nav id="nav">
 						<ul class="links">
-							<li class="active"><a href="index.html">My Projects</a></li>
-							
+							<li class="active"><a href="index.html">Projects</a></li>
+							<li><a href="#about" class="scrolly">About</a></li>
+							<li><a href="#footer" class="scrolly">Contact</a></li>
 						</ul>
 						<ul class="icons">
-						
-							<li><a href="https://www.linkedin.com/in/arun-lama-aa2399146/" class="icon brands fa-linkedin"><span class="label">Instagram</span></a></li>
-							<li><a href="https://github.com/Arun-Lama?tab=repositories" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
+							<li><a href="https://www.linkedin.com/in/arun-lama-aa2399146/" class="icon brands fa-linkedin" rel="noopener noreferrer" target="_blank"><span class="label">LinkedIn</span></a></li>
+							<li><a href="https://github.com/Arun-Lama" class="icon brands fa-github" rel="noopener noreferrer" target="_blank"><span class="label">GitHub</span></a></li>
 						</ul>
 					</nav>
 
-				<!-- Main -->
 					<div id="main">
 
-						<!-- Featured Post -->
-							<article class="post featured">
-									<h2><a href="https://github.com/Arun-Lama/Nepse-Adjusted-Price"><br />
-									Dividend Adjusted Stock Price Series</a></h2>
-									<p  style="text-align: justify;">In this project I created dividend/right adjusted price series from unadjusted price series from scratch.
-										When the companies announce dividends, right, and stock splits large price gaps are seen on the price chart on Ex-dividend date. Such price gaps make
-										distort the time series data and are unreliable to perform further price related analysis. Hence it is crucial to use adjusted price series. 
-									I will explain each steps I performed in this article. 
-									</p>
-									<h3 style = "text-align: left;">1. Data Extraction</h3>
-									<h4 style = "text-align: left;">Historical Stock Price</h4>
-									<p style="margin-bottom: 1;">Over 12 years of data was scraped using Python's Beautifulsoup library from the official <a href="https://www.nepalstock.com/">NEPSE website.</a>
-										You can find the Jupyter notebook code I used for scraping <a href="https://github.com/Arun-Lama/AppliedDataScience/blob/dea5ec1bfb1ed4dae108e01a5837e87dfedf8b0a/Today's%20Price%20Download.ipynb">here.</a></p>
-										<h4 style="text-align: left;">Dividend History</h4>
-										
-										<p>I used <a href = "https://www.sharesansar.com/proposed-dividend"> sharesansar </a>to scrape historical dividends of all stocks. You can find the code for downloading dividend histoy <a href = 'https://github.com/Arun-Lama/AppliedDataScience/blob/278e5bfff524ed4e39a0bf060d43b7feb9f97088/Dividend%20History%20From%20Sharesansar.ipynb'>here.</a></p>
-
-									<p>The downloaded data were stored in a csv file.</p>
-
-									<h3 style = "text-align: left;">2. Data Cleaning</h3>
-									<p>It is very common to see the extracted data very messy. In the case of historical stock price there were many errors in the data source itself. There were many missing values and outliers.
-										I used visualization technique to spot the abnormalities in the data. 
-										<a class="image main"><img src="images/unadjusted.png" alt="" /></a>
-									</p>
-									<p>The code for validating data sanity before and after adjustment can be found <a href = 'https://github.com/Arun-Lama/AppliedDataScience/blob/c477b67373257f9d29932b0bf446fb32f9c51a05/Data%20Cleaning.ipynb'>here.</a></p>
-									<h3 style="text-align: left;">3. Adjustment Algorithm</h3>
-									<p>Finally after the data extraction and cleaning, backward adjusting Algorithm was applied to the price series to generate adjusted price series based on the dividends, rights, and splits.
-										The following example chart of NLIC (Nepal Life Insurance Company Ltd.) illustrates difference between unadjusted and adjusted chart. You can see that the gaps seen in the unadjusted chart are adjusted based on the dividends and rights on the right side. 
-									</p>
-									<a class="image main"><img src="images/unadjusted vs adjusted.png" alt="" />
-
-										<p><a href="https://github.com/Arun-Lama/Nepse-Adjusted-Price" style="color: blue;"> Link to the Repo</a></p>
-						<!-- Posts -->
-						<article>
-							<header>
-								<h2><a href="https://public.tableau.com/app/profile/arun.lama/viz/MyRepublicaNewstitleWordCloudsoverdifferentyearandcategory/WordCloud"> <br/>
-									News Headline Word Cloud Analysis with Tableau Dashboard</a></h2>
+						<section id="about" class="post featured">
+							<header class="major">
+								<h2>About</h2>
+								<p class="about-lead">I build rigorous market datasets and analytical tools, with an emphasis on the Nepal Stock Exchange (NEPSE): corporate actions, time-series integrity, and evidence-based strategy research.</p>
 							</header>
-							<p>I have gathered seven years' worth of news headlines from various categories by scraping data from the website https://myrepublica.nagariknetwork.com/ using Python. Subsequently, I developed a dynamic dashboard that empowers users to select the desired year, news category, and word frequency range. This dashboard enables to analyze and visualize the frequency of repeated words in the selected dataset.
-								Around 84,000 news titles were scraped using python Beautifulsoup library with total words amounting to around 800,000. 
-							</p>
-								<a href="https://public.tableau.com/app/profile/arun.lama/viz/MyRepublicaNewstitleWordCloudsoverdifferentyearandcategory/WordCloud" class="image fit"><img src="images/Word Cloud.png" alt="" />
-								
-							
-							<p><a href = "https://public.tableau.com/app/profile/arun.lama/viz/MyRepublicaNewstitleWordCloudsoverdifferentyearandcategory/WordCloud"  style="color: blue;"> Link to the dashboard</a></p>
+							<ul class="skill-tags" aria-label="Technical focus areas">
+								<li>Python</li>
+								<li>Data pipelines</li>
+								<li>Time series</li>
+								<li>Tableau</li>
+								<li>Research documentation</li>
+							</ul>
+						</section>
 
-						</article>	
-						
-						
-						
-						
-						
-						<section class="posts">
+						<article class="post" id="project-adjusted-prices">
+							<header class="major">
+								<span class="date">Flagship project</span>
+								<h2><a href="https://github.com/Arun-Lama/Nepse-Adjusted-Price" rel="noopener noreferrer" target="_blank">Dividend- and rights-adjusted NEPSE price series</a></h2>
+								<p>This project constructs adjusted OHLC series from raw NEPSE prices so that charts and models are not distorted by ex-dividend gaps, rights issues, or splits.</p>
+							</header>
+
+							<h3>1. Data extraction</h3>
+							<h4>Historical stock prices</h4>
+							<p>More than twelve years of history were collected in Python (Beautiful Soup) from the official <a href="https://www.nepalstock.com/" rel="noopener noreferrer" target="_blank">NEPSE</a> site. Example scraping workflow: <a href="https://github.com/Arun-Lama/AppliedDataScience/blob/dea5ec1bfb1ed4dae108e01a5837e87dfedf8b0a/Today's%20Price%20Download.ipynb" rel="noopener noreferrer" target="_blank">Today&rsquo;s Price Download</a> notebook.</p>
+
+							<h4>Dividend history</h4>
+							<p>Dividend announcements were sourced from <a href="https://www.sharesansar.com/proposed-dividend" rel="noopener noreferrer" target="_blank">ShareSansar</a> and structured for adjustment. Reference notebook: <a href="https://github.com/Arun-Lama/AppliedDataScience/blob/278e5bfff524ed4e39a0bf060d43b7feb9f97088/Dividend%20History%20From%20Sharesansar.ipynb" rel="noopener noreferrer" target="_blank">Dividend history from ShareSansar</a>.</p>
+							<p>Intermediate tables were versioned as CSV for traceability and downstream use.</p>
+
+							<h3>2. Data cleaning</h3>
+							<p>Source data contained missing values, outliers, and structural inconsistencies. Visual checks and validation notebooks were used before and after adjustment. Cleaning and sanity checks: <a href="https://github.com/Arun-Lama/AppliedDataScience/blob/c477b67373257f9d29932b0bf446fb32f9c51a05/Data%20Cleaning.ipynb" rel="noopener noreferrer" target="_blank">Data Cleaning</a>.</p>
+							<div class="image main"><img src="images/unadjusted.png" alt="Example chart highlighting anomalies in raw NEPSE closing prices before cleaning." /></div>
+
+							<h3>3. Adjustment methodology</h3>
+							<p>After extraction and cleaning, a <strong>backward-adjusted</strong> algorithm was applied so that historical levels reflect dividends, rights, and splits consistently. The chart below compares unadjusted versus adjusted closes for Nepal Life Insurance Company Ltd. (NLIC): gaps on the ex-dates in the raw series are reconciled in the adjusted panel.</p>
+							<div class="image main"><img src="images/unadjusted%20vs%20adjusted.png" alt="Dual panel: NLIC unadjusted versus dividend- and rights-adjusted price history." /></div>
+
+							<ul class="actions project-actions">
+								<li><a href="https://github.com/Arun-Lama/Nepse-Adjusted-Price" class="button primary" rel="noopener noreferrer" target="_blank">Open GitHub repository</a></li>
+							</ul>
+						</article>
+
+						<article class="post" id="project-wordcloud">
+							<header class="major">
+								<span class="date">Visualization</span>
+								<h2><a href="https://public.tableau.com/app/profile/arun.lama/viz/MyRepublicaNewstitleWordCloudsoverdifferentyearandcategory/WordCloud" rel="noopener noreferrer" target="_blank">News headline word clouds (Tableau)</a></h2>
+							</header>
+							<p>Roughly seven years of headlines from <a href="https://myrepublica.nagariknetwork.com/" rel="noopener noreferrer" target="_blank">MyRepublica</a> were collected with Python (Beautiful Soup), then explored in a Tableau dashboard. Users can filter by year, news category, and frequency band to inspect term usage across about 84,000 titles and 800,000 tokens.</p>
+							<a href="https://public.tableau.com/app/profile/arun.lama/viz/MyRepublicaNewstitleWordCloudsoverdifferentyearandcategory/WordCloud" class="image fit" rel="noopener noreferrer" target="_blank"><img src="images/Word%20Cloud.png" alt="Screenshot of the Tableau word cloud dashboard for MyRepublica headlines." /></a>
+							<ul class="actions project-actions">
+								<li><a href="https://public.tableau.com/app/profile/arun.lama/viz/MyRepublicaNewstitleWordCloudsoverdifferentyearandcategory/WordCloud" class="button primary" rel="noopener noreferrer" target="_blank">Open Tableau dashboard</a></li>
+							</ul>
+						</article>
+
+						<section class="posts" id="projects-grid" aria-label="Additional projects">
 								<article>
 									<header>
-										<h2><a href="https://github.com/Arun-Lama/technical-analysis-backtesting-nepse"> <br/>
-											Technical Strategy Backtesting</a></h2>
+										<h2><a href="https://github.com/Arun-Lama/technical-analysis-backtesting-nepse" rel="noopener noreferrer" target="_blank">Technical strategy backtesting</a></h2>
 									</header>
-									<p>I wanted to test a simple trading strategy comprising of MA-20, MACD, and RSI. I developed my own
-										back testing system.  
-										
-										Rule of the strategy: <br/>
-										<b>Buy: </b>When price is above 20 MA, RSI is above 50, and MACD line is above signal line.</br> 
-										<b>Sell: </b>When price is below 20 MA, RSI is below 50, and MACD line is below signal line.	
-									</p>
-										<a href="#" class="image fit"><img src="images/backtesting.png" alt="" />
-										 <figcaption>This is how it looks when the backtested results are compared with buy
-										and hold. </figcaption></a>
-									<p> The vertical dotted blue line indicates buy signal whereas the vertical red line signals sell. </p>
-									<p>The adjusted price series generated in project 1 was used as input price series for this project.</p>
-									<p><a href = "https://github.com/Arun-Lama/technical-analysis-backtesting-nepse/tree/main"  style="color: blue;"> Link to the repo</a></p>
-
-								</article>
-
-								<article>
-									<header>
-										<h2><a href="#"><br />
-											Stock Broker Turnover Racing Bar Chart</a></h2>
-									</header>
-									<a class="image fit"><img src="images/Nepse Racing Chart.gif" alt="" /></a>
-									<p>I used Bar_chart_race library for this visualization.</p>
-									<p><a href = "https://github.com/Arun-Lama/Nepse-BarChart-Racing" style= "color: blue;">Link to the Repo</a></p>								</article>
-
-								<article>
-									<header>
-										<h2><a href="#"> <br />
-										Mutual Funds Comparision Visualization</a></h2>
-									</header>
-									<p>This program demonstrates the visualization for comparision of mutual funds of Nepal.</p>
-									<a href="#" class="image fit"><img src="images/Monthly NAV Comparison (New Funds).png" alt="" /></a>
-									<a href="#" class="image fit"><img src="images/Asset Allocation Baisakh 2080 (New Funds).png" alt="" /></a>
-									<a href="#" class="image fit"><img src="images/HotStocks.png" alt="" /></a>
-									<p><a href = 'https://github.com/Arun-Lama/MutualFund-Comparision-Visualization' style=" color: blue;">Link to the repo</a></p>
-									<ul class="actions special">
+									<p>A custom backtesting engine was implemented to evaluate a rules-based strategy using the adjusted price series above as input.</p>
+									<ul class="project-rules">
+										<li><strong>Buy</strong> when price is above the 20-day moving average, RSI is above 50, and the MACD line is above the signal line.</li>
+										<li><strong>Sell</strong> when price is below the 20-day moving average, RSI is below 50, and the MACD line is below the signal line.</li>
+									</ul>
+									<figure class="chart-figure">
+										<a href="https://github.com/Arun-Lama/technical-analysis-backtesting-nepse" class="image fit" rel="noopener noreferrer" target="_blank"><img src="images/backtesting.png" alt="Equity curve comparing the rule-based strategy to buy-and-hold." /></a>
+										<figcaption>Strategy equity versus buy-and-hold; blue markers indicate buys and red markers indicate sells.</figcaption>
+									</figure>
+									<ul class="actions project-actions">
+										<li><a href="https://github.com/Arun-Lama/technical-analysis-backtesting-nepse" class="button" rel="noopener noreferrer" target="_blank">Repository</a></li>
 									</ul>
 								</article>
+
 								<article>
 									<header>
-										<h2><a href="#"> <br />
-										Data Science Projects</a></h2>
+										<h2><a href="https://github.com/Arun-Lama/Nepse-BarChart-Racing" rel="noopener noreferrer" target="_blank">Broker turnover bar chart race</a></h2>
 									</header>
-									<a href="#" class="image fit"><img src="images/pic06.jpg" alt="" /></a>
-									<p>During my learning process on Coursera I completed several small data science projects. </p>
-									<p>You can find <a href = 'https://github.com/Arun-Lama/AppliedDataScience/tree/main' style="color:  blue;">link to the repo here</a></p>
-									<ul class="actions special">
+									<a href="https://github.com/Arun-Lama/Nepse-BarChart-Racing" class="image fit" rel="noopener noreferrer" target="_blank"><img src="images/Nepse%20Racing%20Chart.gif" alt="Animated racing bar chart of NEPSE broker turnover over time." /></a>
+									<p>Built with the <code>bar_chart_race</code> library to animate competitive turnover dynamics across brokers.</p>
+									<ul class="actions project-actions">
+										<li><a href="https://github.com/Arun-Lama/Nepse-BarChart-Racing" class="button" rel="noopener noreferrer" target="_blank">Repository</a></li>
 									</ul>
 								</article>
-								
 
-						<!-- Footer -->
-							<footer>
-				
-							</footer>
+								<article>
+									<header>
+										<h2><a href="https://github.com/Arun-Lama/MutualFund-Comparision-Visualization" rel="noopener noreferrer" target="_blank">Mutual fund comparison dashboards</a></h2>
+									</header>
+									<p>Comparative views of NAV paths, asset allocation, and positioning themes across Nepalese mutual funds.</p>
+									<a href="https://github.com/Arun-Lama/MutualFund-Comparision-Visualization" class="image fit" rel="noopener noreferrer" target="_blank"><img src="images/Monthly%20NAV%20Comparison%20(New%20Funds).png" alt="Monthly NAV comparison chart for newer mutual funds." /></a>
+									<a href="https://github.com/Arun-Lama/MutualFund-Comparision-Visualization" class="image fit" rel="noopener noreferrer" target="_blank"><img src="images/Asset%20Allocation%20Baisakh%202080%20(New%20Funds).png" alt="Asset allocation snapshot for selected funds." /></a>
+									<a href="https://github.com/Arun-Lama/MutualFund-Comparision-Visualization" class="image fit" rel="noopener noreferrer" target="_blank"><img src="images/HotStocks.png" alt="Hot stocks view from the mutual fund visualization suite." /></a>
+									<ul class="actions project-actions">
+										<li><a href="https://github.com/Arun-Lama/MutualFund-Comparision-Visualization" class="button" rel="noopener noreferrer" target="_blank">Repository</a></li>
+									</ul>
+								</article>
+
+								<article>
+									<header>
+										<h2><a href="https://github.com/Arun-Lama/AppliedDataScience" rel="noopener noreferrer" target="_blank">Applied data science coursework</a></h2>
+									</header>
+									<a href="https://github.com/Arun-Lama/AppliedDataScience/tree/main" class="image fit" rel="noopener noreferrer" target="_blank"><img src="images/overlay.jpg" alt="Decorative overlay graphic for the applied data science project collection." /></a>
+									<p>Exercises and small projects completed while studying data science on Coursera, gathered in a single repository for reference.</p>
+									<ul class="actions project-actions">
+										<li><a href="https://github.com/Arun-Lama/AppliedDataScience/tree/main" class="button" rel="noopener noreferrer" target="_blank">Browse repository</a></li>
+									</ul>
+								</article>
+						</section>
 
 					</div>
 
-				<!-- Footer -->
 					<footer id="footer">
-
 						<section class="split contact">
 							<section class="alt">
-								<h3>Address</h3>
+								<h3>Location</h3>
 								<p>Kathmandu,<br />
 								Nepal</p>
 							</section>
 							<section>
 								<h3>Phone</h3>
-								<p><a href="#">(+977) 9813343300</a></p>
+								<p><a href="tel:+9779813343300">(+977) 981-334-3300</a></p>
 							</section>
 							<section>
 								<h3>Email</h3>
-								<p><a href="#">mrarunlama@gmail.com</a></p>
+								<p><a href="mailto:mrarunlama@gmail.com">mrarunlama@gmail.com</a></p>
 							</section>
 							<section>
 								<h3>Social</h3>
 								<ul class="icons alt">
-									<li><a href="https://www.linkedin.com/in/arun-lama-aa2399146/" class="icon brands alt fa-linkedin"><span class="label">Linkedin</span></a></li>
-									<li><a href="https://github.com/Arun-Lama?tab=repositories" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
+									<li><a href="https://www.linkedin.com/in/arun-lama-aa2399146/" class="icon brands alt fa-linkedin" rel="noopener noreferrer" target="_blank"><span class="label">LinkedIn</span></a></li>
+									<li><a href="https://github.com/Arun-Lama" class="icon brands alt fa-github" rel="noopener noreferrer" target="_blank"><span class="label">GitHub</span></a></li>
 								</ul>
 							</section>
 						</section>
 					</footer>
 
-				<!-- Copyright -->
 					<div id="copyright">
-						<ul><li>&copy; Untitled</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li></ul>
+						<ul><li>&copy; Arun K. Lama</li><li>Design: <a href="https://html5up.net/massively" rel="noopener noreferrer" target="_blank">Massively</a> by HTML5 UP</li></ul>
 					</div>
 
 			</div>
 
-		<!-- Scripts -->
 			<script src="assets/js/jquery.min.js"></script>
 			<script src="assets/js/jquery.scrollex.min.js"></script>
 			<script src="assets/js/jquery.scrolly.min.js"></script>
