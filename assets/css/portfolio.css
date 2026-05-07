@@ -496,18 +496,17 @@ main {
 	margin: 0 0 clamp(1.25rem, 3vw, 2rem);
 }
 
+/* Float + flow-root: text wraps around square portrait (asset is 800×800) */
 .about-me__lead {
-	display: grid;
-	grid-template-columns: minmax(200px, min(30vw, 280px)) 1fr;
-	gap: clamp(1.5rem, 4vw, 3.25rem);
-	align-items: start;
+	display: flow-root;
 	margin-bottom: 0.25rem;
 }
 
 .about-me__portrait {
-	margin: 0;
-	width: 100%;
-	max-width: 280px;
+	float: left;
+	margin: 0 clamp(1rem, 3vw, 1.75rem) 0.85rem 0;
+	width: min(260px, 36vw);
+	max-width: 100%;
 	padding: 3px;
 	border-radius: var(--radius-lg);
 	background: linear-gradient(
@@ -526,14 +525,13 @@ main {
 	width: 100%;
 	height: auto;
 	border-radius: calc(var(--radius-lg) - 3px);
-	object-fit: cover;
-	aspect-ratio: 4 / 5;
-	object-position: 50% 18%;
+	/* Source is 800×800 — preserve native aspect, no portrait crop */
+	object-fit: contain;
 	background: #fff;
 }
 
 .about-me__body {
-	min-width: 0;
+	min-width: 12rem;
 }
 
 .about-me__role {
@@ -553,24 +551,24 @@ main {
 
 .about-me__intro p {
 	margin: 0 0 1rem;
-	max-width: 68ch;
+	max-width: none;
 	color: var(--text-muted);
 	font-size: var(--step-1);
 	line-height: 1.7;
 }
 
-@media (max-width: 720px) {
-	.about-me__lead {
-		grid-template-columns: 1fr;
-		justify-items: center;
+@media (max-width: 640px) {
+	.about-me__portrait {
+		float: none;
+		display: block;
+		width: min(220px, 72vw);
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.15rem;
 	}
 
 	.about-me__body {
-		width: 100%;
-	}
-
-	.about-me__portrait {
-		max-width: 220px;
+		min-width: 0;
 	}
 }
 
