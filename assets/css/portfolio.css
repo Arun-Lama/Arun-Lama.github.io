@@ -567,6 +567,27 @@ main {
 	border-top: 1px solid var(--border);
 }
 
+/* Tableau Public embed (light canvas inside dark page) */
+.tableau-embed {
+	margin: 1.5rem 0 0.75rem;
+	border-radius: var(--radius);
+	overflow: hidden;
+	border: 1px solid var(--border);
+	background: #ffffff;
+	line-height: 0;
+}
+
+.tableau-embed .tableauPlaceholder {
+	width: 100%;
+}
+
+.tableau-embed-note {
+	font-size: var(--step--1);
+	color: var(--text-muted);
+	margin: 0.5rem 0 1rem !important;
+	max-width: none !important;
+}
+
 .project-rules {
 	margin: 1rem 0 1.5rem;
 	padding-left: 1.2rem;

@@ -229,9 +229,58 @@
 						<p class="case-deck">Interactive <strong>Tableau Public</strong> workbook exploring residential sales patterns across U.S. states and counties: drill from national context into regional detail with maps, filters, and coordinated views in a single final dashboard.</p>
 					</header>
 					<div class="case-body">
-						<p>Built for clear navigation between geography levels and metrics so users can compare markets without leaving the story layout. Open on Tableau Public for the full interactive experience.</p>
+						<p>Built for clear navigation between geography levels and metrics so users can compare markets without leaving the story layout. Use the live embed below, or open the workbook on Tableau Public in a new tab.</p>
+						<div class="tableau-embed" aria-label="Tableau embed: U.S. home sales dashboard">
+							<div class="tableauPlaceholder" id="vizHomeSalesUS" style="position: relative">
+								<noscript>
+									<a href="https://public.tableau.com/app/profile/arun.lama/viz/HomeSalesinUSbyStateandCounty/FinalDashboard" rel="noopener noreferrer" target="_blank">
+										<img src="https://public.tableau.com/static/images/DR/DRPZ2QWG3/1.png" width="1226" height="657" alt="Final dashboard preview — open interactive view on Tableau Public" style="border: none; width: 100%; height: auto; max-width: 1226px" />
+									</a>
+								</noscript>
+								<object class="tableauViz" style="display: none" title="Tableau: U.S. home sales by state and county">
+									<param name="host_url" value="https%3A%2F%2Fpublic.tableau.com%2F" />
+									<param name="embed_code_version" value="3" />
+									<param name="path" value="shared/DRPZ2QWG3" />
+									<param name="toolbar" value="yes" />
+									<param name="static_image" value="https://public.tableau.com/static/images/DR/DRPZ2QWG3/1.png" />
+									<param name="animate_transition" value="yes" />
+									<param name="display_static_image" value="yes" />
+									<param name="display_spinner" value="yes" />
+									<param name="display_overlay" value="yes" />
+									<param name="display_count" value="yes" />
+									<param name="language" value="en-GB" />
+								</object>
+							</div>
+							<script type="text/javascript">
+								(function () {
+									var divElement = document.getElementById("vizHomeSalesUS");
+									if (!divElement) return;
+									var vizElement = divElement.getElementsByTagName("object")[0];
+									if (!vizElement) return;
+									if (divElement.offsetWidth > 800) {
+										vizElement.style.width = "100%";
+										vizElement.style.maxWidth = "1226px";
+										vizElement.style.height = divElement.offsetWidth * 0.75 + "px";
+										vizElement.style.maxHeight = "657px";
+									} else if (divElement.offsetWidth > 500) {
+										vizElement.style.width = "100%";
+										vizElement.style.maxWidth = "1226px";
+										vizElement.style.height = divElement.offsetWidth * 0.75 + "px";
+										vizElement.style.maxHeight = "657px";
+									} else {
+										vizElement.style.width = "100%";
+										vizElement.style.height = "777px";
+									}
+									var scriptElement = document.createElement("script");
+									scriptElement.src = "https://public.tableau.com/javascripts/api/viz_v1.js";
+									scriptElement.async = true;
+									vizElement.parentNode.insertBefore(scriptElement, vizElement);
+								})();
+							</script>
+						</div>
+						<p class="tableau-embed-note">If the embed does not load (tracking protection or script blockers), use the button below.</p>
 						<div class="case-actions">
-							<a class="btn btn--primary" href="https://public.tableau.com/app/profile/arun.lama/viz/HomeSalesinUSbyStateandCounty/FinalDashboard" rel="noopener noreferrer" target="_blank">Open dashboard</a>
+							<a class="btn btn--primary" href="https://public.tableau.com/app/profile/arun.lama/viz/HomeSalesinUSbyStateandCounty/FinalDashboard" rel="noopener noreferrer" target="_blank">Open on Tableau Public</a>
 						</div>
 					</div>
 				</article>
