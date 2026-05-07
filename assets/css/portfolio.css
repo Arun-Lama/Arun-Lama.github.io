@@ -49,6 +49,9 @@ html {
 		opacity: 1 !important;
 		transform: none !important;
 	}
+	.cosmos {
+		display: none;
+	}
 }
 
 body {
@@ -73,6 +76,59 @@ body {
 		radial-gradient(ellipse 70% 50% at 100% 20%, rgba(100, 140, 220, 0.06), transparent 50%),
 		radial-gradient(ellipse 60% 40% at 0% 60%, rgba(80, 120, 200, 0.05), transparent 45%),
 		var(--bg-deep);
+}
+
+/* Constellation / “data universe” layer (canvas + slow nebula glows) */
+.cosmos {
+	position: fixed;
+	inset: 0;
+	pointer-events: none;
+	z-index: 0;
+	overflow: hidden;
+}
+
+.cosmos__glow {
+	position: absolute;
+	border-radius: 50%;
+	filter: blur(80px);
+	opacity: 0.35;
+	animation: cosmosFloat 28s ease-in-out infinite alternate;
+}
+
+.cosmos__glow--1 {
+	width: min(90vw, 720px);
+	height: min(90vw, 720px);
+	left: -15%;
+	top: 10%;
+	background: radial-gradient(circle, rgba(100, 140, 220, 0.45) 0%, transparent 70%);
+}
+
+.cosmos__glow--2 {
+	width: min(70vw, 520px);
+	height: min(70vw, 520px);
+	right: -10%;
+	bottom: 5%;
+	background: radial-gradient(circle, rgba(201, 162, 39, 0.22) 0%, transparent 65%);
+	animation-delay: -8s;
+	animation-duration: 36s;
+}
+
+.cosmos__canvas {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	display: block;
+	opacity: 0.5;
+}
+
+@keyframes cosmosFloat {
+	from {
+		transform: translate(0, 0) scale(1);
+	}
+	to {
+		transform: translate(4%, -3%) scale(1.05);
+	}
 }
 
 .skip-link {
@@ -375,6 +431,14 @@ main {
 	line-height: 1.65;
 }
 
+.hero-actions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	gap: 0.75rem 1rem;
+}
+
 .hero-cta {
 	display: inline-flex;
 	align-items: center;
@@ -403,6 +467,148 @@ main {
 .hero-cta svg {
 	width: 16px;
 	height: 16px;
+}
+
+.hero-cta--ghost {
+	color: var(--text);
+	background: rgba(255, 255, 255, 0.06);
+	border: 1px solid var(--border-strong);
+	box-shadow: none;
+}
+
+.hero-cta--ghost:hover {
+	color: var(--text);
+	transform: translateY(-2px);
+	background: rgba(255, 255, 255, 0.1);
+	border-color: rgba(255, 255, 255, 0.2);
+	box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+}
+
+/* —— About me (resume-aligned) —— */
+.about-me .section-title {
+	text-align: left;
+	max-width: 20ch;
+}
+
+.about-me__headline {
+	font-size: clamp(1.65rem, 1.2rem + 2.2vw, 2.35rem);
+	line-height: 1.2;
+}
+
+.about-me__role {
+	margin: -0.25rem 0 1.75rem;
+	font-size: var(--step--1);
+	color: var(--text-muted);
+	letter-spacing: 0.04em;
+}
+
+.about-me__role a {
+	font-weight: 500;
+}
+
+.about-me__intro {
+	margin-bottom: 1.75rem;
+}
+
+.about-me__intro p {
+	margin: 0 0 1rem;
+	max-width: 62ch;
+	color: var(--text-muted);
+	font-size: var(--step-1);
+	line-height: 1.7;
+}
+
+.about-me__intro p:last-child {
+	margin-bottom: 0;
+}
+
+.about-me__metrics {
+	list-style: none;
+	margin: 0 0 2rem;
+	padding: 0;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+	gap: 1rem;
+}
+
+.about-me__metrics li {
+	padding: 1rem 1.15rem;
+	border-radius: var(--radius);
+	border: 1px solid var(--border);
+	background: rgba(255, 255, 255, 0.03);
+	font-size: 0.88rem;
+	color: var(--text-muted);
+	line-height: 1.45;
+}
+
+.about-me__metric-value {
+	display: block;
+	font-family: var(--font-display);
+	font-size: 1.35rem;
+	font-weight: 500;
+	color: var(--accent);
+	margin-bottom: 0.25rem;
+}
+
+.about-me__metric-label {
+	color: var(--text-muted);
+	font-size: 0.72rem;
+	font-weight: 600;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+}
+
+.about-me__grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 1rem;
+	margin-bottom: 1.75rem;
+}
+
+@media (max-width: 900px) {
+	.about-me__grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+.about-me__card {
+	padding: 1.35rem 1.5rem;
+	border-radius: var(--radius);
+	border: 1px solid var(--border);
+	background: var(--surface);
+	box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+}
+
+.about-me__card-title {
+	font-family: var(--font-display);
+	font-size: var(--step-1);
+	font-weight: 500;
+	margin: 0 0 0.65rem;
+	color: var(--text);
+}
+
+.about-me__card p {
+	margin: 0;
+	font-size: var(--step--1);
+	color: var(--text-muted);
+	line-height: 1.6;
+}
+
+.about-card--stack {
+	margin-top: 0.5rem;
+}
+
+.about-card__label {
+	font-size: 0.7rem;
+	font-weight: 700;
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+	color: var(--accent);
+	margin: 0 0 1rem;
+}
+
+.about-card--stack .skill-tags {
+	margin-top: 0;
 }
 
 /* —— About —— */

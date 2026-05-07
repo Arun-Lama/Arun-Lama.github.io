@@ -16,6 +16,11 @@
 </head>
 <body>
 	<div class="bg-layer" aria-hidden="true"></div>
+	<div class="cosmos" aria-hidden="true">
+		<div class="cosmos__glow cosmos__glow--1"></div>
+		<div class="cosmos__glow cosmos__glow--2"></div>
+		<canvas class="cosmos__canvas"></canvas>
+	</div>
 	<a class="skip-link" href="#content">Skip to content</a>
 
 	<header class="site-header">
@@ -45,26 +50,59 @@
 				<p class="hero-tagline reveal">Equity research · Quantitative finance · Data engineering</p>
 				<h1 class="reveal">Arun K. Lama</h1>
 				<p class="hero-desc reveal">Rigorous market datasets and analytical tools for NEPSE — corporate actions, clean time series, and evidence-based strategy research.</p>
-				<a class="hero-cta reveal" href="#work">
-					View selected work
-					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
-				</a>
+				<div class="hero-actions reveal">
+					<a class="hero-cta" href="#about">About me</a>
+					<a class="hero-cta hero-cta--ghost" href="#work">
+						View selected work
+						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+					</a>
+				</div>
 			</div>
 		</section>
 
-		<section id="about" class="section section--tight" aria-labelledby="about-heading">
+		<section id="about" class="section section--tight about-me" aria-labelledby="about-heading">
 			<div class="wrap">
-				<p class="section-eyebrow">Profile</p>
-				<h2 id="about-heading" class="section-title">About</h2>
-				<div class="about-card reveal">
-					<p>I build reproducible pipelines and research-grade outputs, with a focus on the Nepal Stock Exchange: extracting messy market data, validating it, and transforming it into series and tools analysts can trust.</p>
+				<p class="section-eyebrow">About me</p>
+				<h2 id="about-heading" class="section-title about-me__headline">Data systems for markets — from floorsheet to dashboard</h2>
+				<p class="about-me__role">Arun K. Lama · Kathmandu, Nepal · <a href="https://www.linkedin.com/in/arun-lama-aa2399146/" rel="noopener noreferrer" target="_blank">LinkedIn</a> · <a href="https://github.com/Arun-Lama" rel="noopener noreferrer" target="_blank">GitHub</a></p>
+
+				<div class="about-me__intro reveal">
+					<p>I design and ship <strong>end-to-end data products</strong> around listed markets: high-volume exchange floorsheets, dividend- and rights-aware price engines, screening pipelines, and distribution automation — plus executive-ready <strong>Tableau</strong> narratives and motion graphics where the story needs to travel beyond the notebook.</p>
+					<p>My work sits at the intersection of <strong>quantitative finance</strong>, <strong>ETL reliability</strong>, and <strong>go-to-market analytics</strong> (social and messaging integrations), with a specialty in <strong>NEPSE</strong> and parallel experience on US housing and news data.</p>
+				</div>
+
+				<ul class="about-me__metrics reveal" aria-label="Selected scale and focus">
+					<li><span class="about-me__metric-value">~100k+</span> <span class="about-me__metric-label">Floorsheet-scale rows</span> in NEPSE trade analytics pipelines</li>
+					<li><span class="about-me__metric-value">Full market</span> <span class="about-me__metric-label">Adjusted OHLCV</span> and watch-list automation</li>
+					<li><span class="about-me__metric-value">APIs</span> <span class="about-me__metric-label">Facebook · Slack · YouTube</span> for scheduled delivery</li>
+				</ul>
+
+				<div class="about-me__grid reveal">
+					<div class="about-me__card">
+						<h3 class="about-me__card-title">Markets &amp; modeling</h3>
+						<p>NEPSE floorsheet analysis and visualization; backward <strong>stock price adjustment</strong> engine; <strong>business grading / KPI</strong> frameworks for listed names; systematic technical screening tied to clean corporate-action-aware series.</p>
+					</div>
+					<div class="about-me__card">
+						<h3 class="about-me__card-title">Automation &amp; platforms</h3>
+						<p>Scraping-to-sheet pipelines, resilient fetches with retries and fallbacks, scheduled chart and <strong>video</strong> generation, and hands-off posting patterns (e.g. Facebook) so research output meets audiences where they already are — including <strong>US real-estate news to Slack</strong> style integrations.</p>
+					</div>
+					<div class="about-me__card">
+						<h3 class="about-me__card-title">Visualization &amp; narrative</h3>
+						<p><strong>Tableau Public</strong> dashboards (US home sales, headline word clouds), <strong>bar chart race</strong> storytelling (e.g. commercial bank deposits), and notebook-driven exploration when stakeholders need to interrogate assumptions.</p>
+					</div>
+				</div>
+
+				<div class="about-card about-card--stack reveal">
+					<p class="about-card__label">Core stack</p>
 					<ul class="skill-tags" aria-label="Technical focus">
 						<li>Python</li>
-						<li>ETL &amp; automation</li>
-						<li>Time series</li>
+						<li>Pandas</li>
+						<li>ETL</li>
+						<li>Google Sheets / APIs</li>
+						<li>Selenium</li>
 						<li>Tableau</li>
-						<li>Video / FFmpeg</li>
-						<li>Research documentation</li>
+						<li>FFmpeg</li>
+						<li>Git</li>
 					</ul>
 				</div>
 			</div>
