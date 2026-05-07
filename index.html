@@ -82,31 +82,44 @@
 							<span class="chip">Flagship</span>
 							<span class="chip">NEPSE</span>
 							<span class="chip">Python</span>
+							<span class="chip">Google Sheets</span>
 						</div>
-						<h2><a href="https://github.com/Arun-Lama/Nepse-Adjusted-Price" rel="noopener noreferrer" target="_blank">Dividend- and rights-adjusted NEPSE price series</a></h2>
-						<p class="case-deck">Adjusted OHLC from raw NEPSE prices so charts and models are not distorted by ex-dividend gaps, rights issues, or splits.</p>
+						<h2><a href="https://github.com/Arun-Lama/Adjusted-price-to-sheet" rel="noopener noreferrer" target="_blank">Dividend- and rights-adjusted NEPSE price series</a></h2>
+						<p class="case-deck">Production pipeline in <strong>Adjusted-price-to-sheet</strong>: maintain corporate actions from ShareSansar, read full-market unadjusted OHLCV from Google Sheets, run a per-ticker <code>PriceAdjuster</code>, and publish a single consolidated adjusted CSV for downstream analytics and tools.</p>
 					</header>
 					<div class="case-body">
 						<h3>1. Data extraction</h3>
-						<h4>Historical stock prices</h4>
-						<p>More than twelve years of history were collected in Python (Beautiful Soup) from the official <a href="https://www.nepalstock.com/" rel="noopener noreferrer" target="_blank">NEPSE</a> site. Example workflow: <a href="https://github.com/Arun-Lama/AppliedDataScience/blob/dea5ec1bfb1ed4dae108e01a5837e87dfedf8b0a/Today's%20Price%20Download.ipynb" rel="noopener noreferrer" target="_blank">Today&rsquo;s Price Download</a> notebook.</p>
+						<h4>Unadjusted prices (system of record)</h4>
+						<p>The batch job reads the latest <strong>unadjusted OHLCV</strong> for all active tickers from a central <strong>Google Sheet</strong> using <strong>gspread</strong> with a Google Cloud <strong>service account</strong> (credentials supplied via environment — no keys in the repo). That sheet is the hand-off point from earlier collection work (for example notebooks that scrape <a href="https://www.nepalstock.com/" rel="noopener noreferrer" target="_blank">NEPSE</a> or related sources); this repository focuses on <strong>adjustment and refresh</strong>, not on re-scraping the exchange on every run.</p>
 						<h4>Dividend history</h4>
-						<p>Dividend announcements from <a href="https://www.sharesansar.com/proposed-dividend" rel="noopener noreferrer" target="_blank">ShareSansar</a>, structured for adjustment. Reference: <a href="https://github.com/Arun-Lama/AppliedDataScience/blob/278e5bfff524ed4e39a0bf060d43b7feb9f97088/Dividend%20History%20From%20Sharesansar.ipynb" rel="noopener noreferrer" target="_blank">Dividend history from ShareSansar</a>. Tables were kept as CSV for traceability.</p>
+						<p><code>download_dividend.py</code> hits <a href="https://www.sharesansar.com/proposed-dividend" rel="noopener noreferrer" target="_blank">ShareSansar proposed dividend</a> by fiscal year, pulls recent years, and <strong>merges</strong> them into the live dividend-history sheet so book-closure dates and cash/bonus percentages stay current.</p>
+						<h4>Rights history</h4>
+						<p><code>download_right.py</code> drives <strong>headless Chrome (Selenium)</strong> on ShareSansar&rsquo;s <strong>existing issues / rights</strong> table (pagination-aware), parses HTML with <strong>Beautiful Soup</strong>, and writes refreshed rights rows (symbol, ratio, book closure) back into the rights sheet.</p>
 
-						<h3>2. Data cleaning</h3>
-						<p>Missing values, outliers, and inconsistencies were flagged with visual checks and validation notebooks. <a href="https://github.com/Arun-Lama/AppliedDataScience/blob/c477b67373257f9d29932b0bf446fb32f9c51a05/Data%20Cleaning.ipynb" rel="noopener noreferrer" target="_blank">Data Cleaning</a>.</p>
+						<h3>2. Ingest prep and quality</h3>
+						<p><code>price_adjustment.py</code> normalizes the price sheet after load: strip thousands separators and bad tokens, coerce OHLCV columns to numeric, sort by date, and index by session date. Each ticker is processed in a <strong>try/except</strong> loop so one bad series does not stop the whole market; failures are collected for review. The chart below illustrates the kind of <strong>raw-series sanity checks</strong> (gaps, spikes, missing logic) that motivate strict cleaning before adjustment.</p>
 						<figure class="figure">
 							<img src="images/unadjusted.png" width="1200" height="675" loading="lazy" alt="Example chart highlighting anomalies in raw NEPSE closing prices before cleaning." />
+							<figcaption>Illustrative unadjusted series: visual QA before corporate-action adjustment.</figcaption>
 						</figure>
 
-						<h3>3. Adjustment methodology</h3>
-						<p>A <strong>backward-adjusted</strong> algorithm aligns historical levels with dividends, rights, and splits. Below: NLIC unadjusted versus adjusted closes — ex-date gaps in the raw series are reconciled in the adjusted panel.</p>
+						<h3>3. Adjustment engine (<code>PriceAdjuster</code>)</h3>
+						<p>For each symbol, corporate actions are unified into one timeline: <strong>cash dividend %</strong>, <strong>bonus %</strong>, and <strong>rights ratio</strong> (<code>a:b</code>), each with a <strong>book closure date</strong>. Actions before the first price observation are dropped; the remainder are sorted chronologically.</p>
+						<p>The OHLC series is <strong>fragmented</strong> into segments between consecutive book-closure dates. On each segment, prices are restated in a <strong>backward</strong> style so past levels remain comparable after payouts and rights:</p>
+						<ul class="project-rules">
+							<li><strong>Cash dividend:</strong> the announced percentage is converted to rupees per share using a <strong>par-value heuristic</strong> (Rs 10 vs 100 inferred from the pre-closing price level). Historical OHLC on that segment is divided by <code>1 + (dividend per share / pre-close)</code> — but <strong>only when</strong> that implied yield exceeds <strong>10%</strong>; smaller declared amounts are left unchanged to avoid over-adjusting noisy small percentages.</li>
+							<li><strong>Bonus:</strong> OHLC is divided by <code>1 + bonus%/100</code> on the affected segment.</li>
+							<li><strong>Rights:</strong> the rights ratio feeds a per-share adjustment; OHLC is transformed with the implemented mapping <code>(P + k) / (1 + r)</code> so the rights issue is reflected consistently across the window.</li>
+						</ul>
+						<p>Segments are concatenated into one continuous adjusted history per ticker. All tickers are concatenated and written to <code>adjusted price/all_adj_companies_data.csv</code> (the same artifact other pipelines consume via GitHub). An optional write back to a master Google Sheet is present in code but left disabled in favor of the CSV artifact.</p>
 						<figure class="figure">
 							<img src="images/unadjusted%20vs%20adjusted.png" width="1200" height="675" loading="lazy" alt="Dual panel: NLIC unadjusted versus dividend- and rights-adjusted price history." />
+							<figcaption>NLIC example: unadjusted vs adjusted panels after the pipeline (illustration).</figcaption>
 						</figure>
 
 						<div class="case-actions">
-							<a class="btn btn--primary" href="https://github.com/Arun-Lama/Nepse-Adjusted-Price" rel="noopener noreferrer" target="_blank">GitHub repository</a>
+							<a class="btn btn--primary" href="https://github.com/Arun-Lama/Adjusted-price-to-sheet" rel="noopener noreferrer" target="_blank">Adjusted-price-to-sheet (pipeline)</a>
+							<a class="btn" href="https://github.com/Arun-Lama/Nepse-Adjusted-Price" rel="noopener noreferrer" target="_blank">Nepse-Adjusted-Price (related)</a>
 						</div>
 					</div>
 				</article>
